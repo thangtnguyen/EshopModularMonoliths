@@ -22,8 +22,8 @@ namespace Catalog.Products.Features.GetProducts
 
             //mapping product entity to productdto using Mapster
             var productDtos = products.Adapt<List<ProductDto>>();
-            
-            throw new NotImplementedException();
+
+            return new GetProductResult(productDtos);
         }
     }
 }
