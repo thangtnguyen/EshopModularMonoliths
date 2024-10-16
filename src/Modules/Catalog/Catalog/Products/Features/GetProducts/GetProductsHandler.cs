@@ -1,11 +1,13 @@
 ﻿
 
+using Shared.Pagination;
+
 namespace Catalog.Products.Features.GetProducts
 {
-    public record GetProductQuery()
+    public record GetProductQuery(PaginationRequest PaginationRequest)
         : IQuery<GetProductResult>;
 
-    public record GetProductResult(IEnumerable<ProductDto> Products);
+    public record GetProductResult(PaginatedResult<ProductDto> Products);
 
     internal class GetProductsHandler(CatalogDbContext dbContext)
         : IQueryHandler<GetProductQuery, GetProductResult>
@@ -15,15 +17,24 @@ namespace Catalog.Products.Features.GetProducts
             // get products using dbContext
             // return result
 
+            var pageIndex = query.PaginationRequest.PageIndex;
+            var pageSize = query.PaginationRequest.PageSize;
+
+            var totalCount = await dbContext.Products.LongCountAsync(cancellationToken);
+
             var products = await dbContext.Products
                 .AsNoTracking()
                 .OrderBy(p => p.Name)
+                .Skip(pageSize * pageIndex)
+                .Take(pageSize)
                 .ToListAsync(cancellationToken);
 
             //mapping product entity to productdto using Mapster
             var productDtos = products.Adapt<List<ProductDto>>();
 
-            return new GetProductResult(productDtos);
+            return new GetProductResult(
+                new PaginatedResult<ProductDto>(
+                    pageIndex, pageSize, totalCount, productDtos));
         }
     }
 }
