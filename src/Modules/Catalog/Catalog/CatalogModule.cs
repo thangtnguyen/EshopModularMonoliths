@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Shared.Behaviors;
-using Shared.Data.Interceptors;
-
-namespace Catalog
+﻿namespace Catalog
 {
     public static class CatalogModule
     {
