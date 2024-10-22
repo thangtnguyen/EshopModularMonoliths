@@ -18,7 +18,7 @@
                 throw new BasketNotFoundException(command.UserName);
             }
 
-            dbContext.ShoppingCarts.Add(basket);
+            dbContext.ShoppingCarts.Remove(basket);
             await dbContext.SaveChangesAsync(cancellationToken);
             return new DeleteBasketResult(true);
         }
