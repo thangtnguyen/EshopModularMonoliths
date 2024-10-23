@@ -19,3 +19,6 @@ global using MediatR;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Routing;
 global using Microsoft.AspNetCore.Mvc;
+global using Basket.Data.Repository;
+global using Microsoft.Extensions.Caching.Distributed;
+global using System.Text.Json;

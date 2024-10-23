@@ -15,6 +15,11 @@ builder.Services.AddCarterWithAssemblies(
 // application Use Case services
 builder.Services.AddMeditRWeithAssemblies(catalogAssembly,basketAssebmly);
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
 // module services: catalog, basket, ordering
 builder.Services
     .AddCatalogModule(builder.Configuration)
