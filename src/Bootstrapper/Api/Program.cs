@@ -7,18 +7,19 @@ builder.Host.UseSerilog((context, config) =>
 
 // common services: carter, mediatr, fluentvalidation
 var catalogAssembly = typeof(CatalogModule).Assembly;
-var basketAssebmly = typeof(BasketModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
 builder.Services.AddCarterWithAssemblies(
     catalogAssembly,
-    basketAssebmly);
+    basketAssembly);
 
 // application Use Case services
-builder.Services.AddMeditRWeithAssemblies(catalogAssembly,basketAssebmly);
+builder.Services.AddMeditRWeithAssemblies(catalogAssembly,basketAssembly);
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
+builder.Services.AddMassTransitWithAssemblies(builder.Configuration, catalogAssembly, basketAssembly);
 
 // module services: catalog, basket, ordering
 builder.Services
